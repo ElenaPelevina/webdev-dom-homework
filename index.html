@@ -72,28 +72,32 @@
     const input = document.getElementById('input');
     const comment = document.getElementById('comment');
     const button = document.getElementById('button');
-    const currentDate = new Date;
-    const options = {
-     hour: 'numeric', minute: 'numeric'
-     };
-     const commentDate = currentDate.toLocaleDateString('ru-RU', options);
+    
      
-    button.addEventListener('click', () => {
+  button.addEventListener('click', () => {
+      const currentDate = new Date;
+      const options = {
+            hour: 'numeric', 
+            minute: 'numeric'
+          };
+      const commentDate = currentDate.toLocaleDateString('ru-RU', options);
       input.classList.remove('error');
-    comment.classList.remove('error')
-    if (input.value === "" && comment.value === "") {
-    input.classList.add('error');
-    comment.classList.add('error');
-    return
-    } else if (input.value === "") {
-    input.classList.add('error');
-    return
-    } else if (comment.value === "") {
-    comment.classList.add('error');
-    return
-    } 
-    const oldHTML = commentsList.innerHTML
-      commentsList.innerHTML = oldHTML + `<li class="comment">
+      comment.classList.remove('error');
+
+     if (input.value === "" && comment.value === "") {
+     input.classList.add('error');
+     comment.classList.add('error');
+     return
+     } else if (input.value === "") {
+     input.classList.add('error');
+     return
+     } else if (comment.value === "") {
+     comment.classList.add('error');
+     return
+     } 
+
+     const oldHTML = commentsList.innerHTML
+     commentsList.innerHTML = oldHTML + `<li class="comment">
       <div class="comment-header">
             <div>${input.value}</div>
             <div>${commentDate}</div>
@@ -108,7 +112,10 @@
               <span class="likes-counter">0</span>
               <button class="like-button"></button>
                </li>`  
-    })
+     input.value = "";
+     comment.value = "";
+    }
+  )
     // Код писать здесь
     console.log("It works!");
     
