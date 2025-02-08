@@ -40,7 +40,6 @@
     const comment = document.getElementById('comment');
     const button = document.getElementById('button');
     const likeIcon = document.querySelectorAll('.like-button');
-    const likesCounter = document.querySelectorAll('.likes-counter');
   
     const commentsArr = [
       {name: 'Глеб Фокин',
@@ -56,28 +55,52 @@
        isLike: true
       }
     ]
+    const likeComments = () => {
+     const likeButtons = document.querySelectorAll('.like-button');
   
+     for (const likeButton of likeButtons ) {
+     const index = likeButton.dataset.index;
+     if (commentsArr[index].isLike === true) {
+     likeButton.classList.add('-active-like');
+     }
+     
+     likeButton.addEventListener('click', () => {
+   
+     if (commentsArr[index].isLike === false) {
+     likeButton.classList.add('-active-like')
+     commentsArr[index].counter += 1
+     commentsArr[index].isLike = true 
+     } else {likeButton.classList.remove('-active-like') 
+     commentsArr[index].counter -= 1  
+     commentsArr[index].isLike = false
+     }
+     renderComments()})
+     }
+     
+  }
+
   const renderComments = () => {
      const commentsHtml = commentsArr.map((comment, index) => {
-       return `<li class="comment">
-          <div class="comment-header">
+       return `<li class = "comment">
+          <div class = "comment-header">
             <div>${comment.name}</div>
             <div>${comment.date}</div>
           </div>
-          <div class="comment-body">
-            <div class="comment-text">
+          <div class = "comment-body">
+            <div class = "comment-text">
               ${comment.text}
             </div>
           </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">${comment.counter}</span>
-              <button class="like-button"></button>
+          <div class = "comment-footer">
+            <div class = "likes">
+              <span class = "likes-counter">${comment.counter}</span>
+              <button class = "like-button" data-index = "${index}"></button>
             </div>
           </div>
         </li>`
   }).join("");
   commentsList.innerHTML = commentsHtml;
+  likeComments();
   };
   
   renderComments();
@@ -119,6 +142,6 @@
     // Код писать здесь
     console.log("It works!");
     
-  
+  console.log(commentsArr)
   </script>
 </html>
