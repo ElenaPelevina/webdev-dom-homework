@@ -67,11 +67,10 @@
      likeButton.addEventListener('click', () => {
    
      if (commentsArr[index].isLike === false) {
-     likeButton.classList.add('-active-like')
-     commentsArr[index].counter += 1
+     commentsArr[index].counter += 1 
      commentsArr[index].isLike = true 
-     } else {likeButton.classList.remove('-active-like') 
-     commentsArr[index].counter -= 1  
+    } else { 
+     commentsArr[index].counter -= 1 
      commentsArr[index].isLike = false
      }
      renderComments()})
@@ -81,6 +80,7 @@
 
   const renderComments = () => {
      const commentsHtml = commentsArr.map((comment, index) => {
+      if (comment.isLike === false) {
        return `<li class = "comment">
           <div class = "comment-header">
             <div>${comment.name}</div>
@@ -98,8 +98,28 @@
             </div>
           </div>
         </li>`
+  } else {
+    return `<li class = "comment">
+          <div class = "comment-header">
+            <div>${comment.name}</div>
+            <div>${comment.date}</div>
+          </div>
+          <div class = "comment-body">
+            <div class = "comment-text">
+              ${comment.text}
+            </div>
+          </div>
+          <div class = "comment-footer">
+            <div class = "likes">
+              <span class = "likes-counter">${comment.counter}</span>
+              <button class = "like-button -active-like" data-index = "${index}"></button>
+            </div>
+          </div>
+        </li>`
+  }
   }).join("");
   commentsList.innerHTML = commentsHtml;
+ 
   likeComments();
   };
   
