@@ -60,9 +60,6 @@
   
      for (const likeButton of likeButtons ) {
      const index = likeButton.dataset.index;
-     if (commentsArr[index].isLike === true) {
-     likeButton.classList.add('-active-like');
-     }
      
      likeButton.addEventListener('click', () => {
    
