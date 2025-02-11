@@ -37,6 +37,8 @@
 
     const commentsList = document.getElementById('comments')
     const button = document.getElementById('button');
+    const input = document.getElementById('input');
+    const comment = document.getElementById('comment');
   
     const commentsArr = [
       {name: 'Глеб Фокин',
@@ -58,8 +60,8 @@
      for (const likeButton of likeButtons ) {
      const index = likeButton.dataset.index;
      
-     likeButton.addEventListener('click', () => {
-   
+     likeButton.addEventListener('click', (event) => {
+     event.stopPropagation();
      if (commentsArr[index].isLike === false) {
      commentsArr[index].counter += 1 
      commentsArr[index].isLike = true 
@@ -72,9 +74,23 @@
      
   }
 
+  const doQuote = () => {
+    const commentBodies = document.querySelectorAll('.comment');
+
+    for (const commentBody of commentBodies) {
+    const info = commentBody.dataset.info
+    commentBody.addEventListener('click', () => {
+    comment.value = `Пользователь ${commentsArr[info].name} сказал:
+    "${commentsArr[info].text}"`
+    console.log(`${info} done`)
+    renderComments();
+    })
+    }
+ };
+
   const renderComments = () => {
      const commentsHtml = commentsArr.map((comment, index) => {
-       return `<li class = "comment">
+       return `<li data-info = "${index}"  class = "comment">
           <div class = "comment-header">
             <div>${comment.name}</div>
             <div>${comment.date}</div>
@@ -95,6 +111,7 @@
   commentsList.innerHTML = commentsHtml;
  
   likeComments();
+  doQuote();
   };
   
   renderComments();
@@ -121,9 +138,9 @@
      comment.classList.add('error');
      return
      } 
-     const newComment = {name: input.value,
+     const newComment = {name: input.value.replaceAll("<","&lt;").replaceAll(">","&gt;"),
        date: commentDate,
-       text: comment.value,
+       text: comment.value.replaceAll("<","&lt;").replaceAll(">","&gt;"),
        counter: 0,
        isLike: false
       };
