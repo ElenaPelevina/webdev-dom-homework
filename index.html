@@ -36,10 +36,7 @@
     "use strict";
 
     const commentsList = document.getElementById('comments')
-    const input = document.getElementById('input');
-    const comment = document.getElementById('comment');
     const button = document.getElementById('button');
-    const likeIcon = document.querySelectorAll('.like-button');
   
     const commentsArr = [
       {name: 'Глеб Фокин',
@@ -77,7 +74,6 @@
 
   const renderComments = () => {
      const commentsHtml = commentsArr.map((comment, index) => {
-      if (comment.isLike === false) {
        return `<li class = "comment">
           <div class = "comment-header">
             <div>${comment.name}</div>
@@ -91,29 +87,10 @@
           <div class = "comment-footer">
             <div class = "likes">
               <span class = "likes-counter">${comment.counter}</span>
-              <button class = "like-button" data-index = "${index}"></button>
+              <button class = "like-button ${comment.isLike ? "-active-like" : ""}" data-index = "${index}"></button>
             </div>
           </div>
         </li>`
-  } else {
-    return `<li class = "comment">
-          <div class = "comment-header">
-            <div>${comment.name}</div>
-            <div>${comment.date}</div>
-          </div>
-          <div class = "comment-body">
-            <div class = "comment-text">
-              ${comment.text}
-            </div>
-          </div>
-          <div class = "comment-footer">
-            <div class = "likes">
-              <span class = "likes-counter">${comment.counter}</span>
-              <button class = "like-button -active-like" data-index = "${index}"></button>
-            </div>
-          </div>
-        </li>`
-  }
   }).join("");
   commentsList.innerHTML = commentsHtml;
  
