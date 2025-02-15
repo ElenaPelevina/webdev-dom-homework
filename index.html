@@ -80,14 +80,18 @@
     for (const commentBody of commentBodies) {
     const info = commentBody.dataset.info
     commentBody.addEventListener('click', () => {
-    comment.value = `Пользователь ${commentsArr[info].name} сказал:
-    "${commentsArr[info].text}"`
+    comment.value = `quote Пользователь ${commentsArr[info].name} сказал:
+    "${commentsArr[info].text}" unqoute`
     console.log(`${info} done`)
     renderComments();
     })
     }
  };
 
+  const replaceQuote = (str) => {
+    return str.replaceAll('quote', '<i class = "quote">').replaceAll('unqoute', '</i>')
+  }
+  
   const renderComments = () => {
      const commentsHtml = commentsArr.map((comment, index) => {
        return `<li data-info = "${index}"  class = "comment">
@@ -97,7 +101,7 @@
           </div>
           <div class = "comment-body">
             <div class = "comment-text">
-              ${comment.text}
+              ${replaceQuote(comment.text)}
             </div>
           </div>
           <div class = "comment-footer">

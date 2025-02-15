@@ -139,3 +139,7 @@ body {
   .error {
     background-color: pink;
   }
+
+  .quote {
+    font-size: 24px;
+  }
