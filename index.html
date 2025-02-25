@@ -60,8 +60,8 @@
      for (const likeButton of likeButtons ) {
      const index = likeButton.dataset.index;
      
-     likeButton.addEventListener('click', () => {
-   
+     likeButton.addEventListener('click', (event) => {
+     event.stopPropagation();
      if (commentsArr[index].isLike === false) {
      commentsArr[index].counter += 1 
      commentsArr[index].isLike = true 
@@ -74,16 +74,38 @@
      
   }
 
+  const doQuote = () => {
+    const commentBodies = document.querySelectorAll('.comment');
+
+    for (const commentBody of commentBodies) {
+    const info = commentBody.dataset.info
+    commentBody.addEventListener('click', () => {
+    comment.value = `quote Пользователь ${commentsArr[info].name} сказал:
+    "${commentsArr[info].text}" unqoute`
+    console.log(`${info} done`)
+    renderComments();
+    })
+    }
+ };
+
+  const replaceQuote = (str) => {
+    return str.replaceAll('quote', '<i class = "quote">').replaceAll('unqoute', '</i>')
+  }
+  
+  const replaceTag = (str) => {
+    return str.replaceAll('<', '&lt').replaceAll('>', '&gt;')
+  }
+
   const renderComments = () => {
      const commentsHtml = commentsArr.map((comment, index) => {
-       return `<li class = "comment">
+       return `<li data-info = "${index}"  class = "comment">
           <div class = "comment-header">
             <div>${comment.name}</div>
             <div>${comment.date}</div>
           </div>
           <div class = "comment-body">
             <div class = "comment-text">
-              ${comment.text}
+              ${replaceQuote(comment.text)}
             </div>
           </div>
           <div class = "comment-footer">
@@ -97,6 +119,7 @@
   commentsList.innerHTML = commentsHtml;
  
   likeComments();
+  doQuote();
   };
   
   renderComments();
@@ -123,9 +146,9 @@
      comment.classList.add('error');
      return
      } 
-     const newComment = {name: input.value,
+     const newComment = {name: replaceTag(input.value),
        date: commentDate,
-       text: comment.value,
+       text: replaceTag(comment.value),
        counter: 0,
        isLike: false
       };
