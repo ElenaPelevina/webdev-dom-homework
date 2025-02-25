@@ -1,11 +1,8 @@
-"use strict";
+'use strict'
 
-import { renderComments } from "./modules/render.js";
-import { addComment } from "./modules/eventlisteners.js";
+import { renderComments } from './modules/render.js'
+import { addComment } from './modules/eventlisteners.js'
 
+renderComments()
 
-renderComments();
 addComment()
-
-
-
