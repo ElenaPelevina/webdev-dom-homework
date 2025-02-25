@@ -92,6 +92,10 @@
     return str.replaceAll('quote', '<i class = "quote">').replaceAll('unqoute', '</i>')
   }
   
+  const replaceTag = (str) => {
+    return str.replaceAll('<', '&lt').replaceAll('>', '&gt;')
+  }
+
   const renderComments = () => {
      const commentsHtml = commentsArr.map((comment, index) => {
        return `<li data-info = "${index}"  class = "comment">
@@ -142,9 +146,9 @@
      comment.classList.add('error');
      return
      } 
-     const newComment = {name: input.value.replaceAll("<","&lt;").replaceAll(">","&gt;"),
+     const newComment = {name: replaceTag(input.value),
        date: commentDate,
-       text: comment.value.replaceAll("<","&lt;").replaceAll(">","&gt;"),
+       text: replaceTag(comment.value),
        counter: 0,
        isLike: false
       };
