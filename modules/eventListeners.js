@@ -1,4 +1,4 @@
-import { commentsArr } from './commentsList.js'
+import { commentsArr, updateComments } from './commentsList.js'
 import { renderComments } from './render.js'
 import { replaceTag } from './replaceFunctions.js'
 
@@ -10,12 +10,12 @@ export const likeComments = () => {
 
         likeButton.addEventListener('click', (event) => {
             event.stopPropagation()
-            if (commentsArr[index].isLike === false) {
-                commentsArr[index].counter += 1
-                commentsArr[index].isLike = true
+            if (commentsArr[index].isLiked === false) {
+                commentsArr[index].likes += 1
+                commentsArr[index].isLiked = true
             } else {
-                commentsArr[index].counter -= 1
-                commentsArr[index].isLike = false
+                commentsArr[index].likes -= 1
+                commentsArr[index].isLiked = false
             }
             renderComments()
         })
@@ -29,7 +29,7 @@ export const doQuote = () => {
     for (const commentBody of commentBodies) {
         const info = commentBody.dataset.info
         commentBody.addEventListener('click', () => {
-            comment.value = `quote Пользователь ${commentsArr[info].name} сказал:
+            comment.value = `quote Пользователь ${commentsArr[info].author.name} сказал:
     "${commentsArr[info].text}" unqoute`
             console.log(`${info} done`)
             renderComments()
@@ -43,15 +43,15 @@ export const addComment = () => {
     const comment = document.getElementById('comment')
 
     button.addEventListener('click', () => {
-        const currentDate = new Date()
-        const options = {
-            hour: 'numeric',
-            minute: 'numeric',
-            day: 'numeric',
-            month: 'numeric',
-            year: '2-digit',
-        }
-        const commentDate = currentDate.toLocaleDateString('ru-RU', options)
+        //const currentDate = new Date()
+        //const options = {
+        //     hour: 'numeric',
+        //     minute: 'numeric',
+        //     day: 'numeric',
+        //     month: 'numeric',
+        //     year: '2-digit',
+        // }
+        //const commentDate = currentDate.toLocaleDateString('ru-RU', options)
         input.classList.remove('error')
         comment.classList.remove('error')
 
@@ -66,16 +66,33 @@ export const addComment = () => {
             comment.classList.add('error')
             return
         }
+        // const newComment = {
+        //     author: { name: replaceTag(input.value)},
+        //     id: index,
+        //     date: commentDate,
+        //     likes: 0,
+        //     isLiked: false,
+        //     text: replaceTag(comment.value),
+        // }
         const newComment = {
-            name: replaceTag(input.value),
-            date: commentDate,
             text: replaceTag(comment.value),
-            counter: 0,
-            isLike: false,
+            name: replaceTag(input.value),
         }
-        commentsArr.push(newComment)
+
+        fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
+            method: 'POST',
+            body: JSON.stringify(newComment),
+        })
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                updateComments(data.comments)
+                renderComments()
+            })
+        //commentsArr.push(newComment)
         input.value = ''
         comment.value = ''
-        renderComments()
+        //renderComments()
     })
 }
