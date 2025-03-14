@@ -1,7 +1,7 @@
 'use strict'
 
 import { renderComments } from './modules/render.js'
-import { addComment } from './modules/eventlisteners.js'
+import { addComment } from './modules/eventListeners.js'
 import { updateComments } from './modules/commentsList.js'
 
 //renderComments()//

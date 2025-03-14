@@ -43,15 +43,6 @@ export const addComment = () => {
     const comment = document.getElementById('comment')
 
     button.addEventListener('click', () => {
-        //const currentDate = new Date()
-        //const options = {
-        //     hour: 'numeric',
-        //     minute: 'numeric',
-        //     day: 'numeric',
-        //     month: 'numeric',
-        //     year: '2-digit',
-        // }
-        //const commentDate = currentDate.toLocaleDateString('ru-RU', options)
         input.classList.remove('error')
         comment.classList.remove('error')
 
@@ -82,17 +73,24 @@ export const addComment = () => {
         fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
             method: 'POST',
             body: JSON.stringify(newComment),
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // },
         })
             .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Error occurred!')
+                }
                 return response.json()
             })
             .then((data) => {
+                console.log(data)
                 updateComments(data.comments)
                 renderComments()
             })
-        //commentsArr.push(newComment)
-        input.value = ''
-        comment.value = ''
-        //renderComments()
+            .catch((error) => {
+                console.error('Возникла проблема с операцией fetch:', error)
+            })
+            .finally((input.value = ''), (comment.value = ''))
     })
 }
