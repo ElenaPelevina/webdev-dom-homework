@@ -56,15 +56,23 @@ export const addComment = () => {
         } else if (comment.value === '') {
             comment.classList.add('error')
             return
+        } else if (input.value.length < 3 && comment.value.length < 3) {
+            alert(
+                'Длинна имени и комментария должна содержать хотя бы 3 символа',
+            )
+            input.classList.add('error')
+            comment.classList.add('error')
+            return
+        } else if (comment.value.length < 3) {
+            alert('Длинна комментария должна содержать хотя бы 3 символа')
+            comment.classList.add('error')
+            return
+        } else if (input.value.length < 3) {
+            alert('Длинна имени должна содержать хотя бы 3 символа')
+            input.classList.add('error')
+            return
         }
-        // const newComment = {
-        //     author: { name: replaceTag(input.value)},
-        //     id: index,
-        //     date: commentDate,
-        //     likes: 0,
-        //     isLiked: false,
-        //     text: replaceTag(comment.value),
-        // }
+
         const newComment = {
             text: replaceTag(comment.value),
             name: replaceTag(input.value),
