@@ -1,6 +1,7 @@
-import { commentsArr, updateComments } from './commentsList.js'
+import { commentsArr } from './commentsList.js'
 import { renderComments } from './render.js'
 import { replaceTag } from './replaceFunctions.js'
+import { getComment } from '../index.js'
 
 export const likeComments = () => {
     const likeButtons = document.querySelectorAll('.like-button')
@@ -93,8 +94,7 @@ export const addComment = () => {
             })
             .then((data) => {
                 console.log(data)
-                updateComments(data.comments)
-                renderComments()
+                getComment()
             })
             .catch((error) => {
                 console.error('Возникла проблема с операцией fetch:', error)
