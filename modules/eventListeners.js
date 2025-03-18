@@ -46,6 +46,7 @@ export const addComment = () => {
     button.addEventListener('click', () => {
         input.classList.remove('error')
         comment.classList.remove('error')
+        document.querySelector('.add-form').style.display = 'none'
 
         if (input.value === '' && comment.value === '') {
             input.classList.add('error')
@@ -74,9 +75,6 @@ export const addComment = () => {
             return
         }
 
-        document.getElementById('button').disabled = true
-        document.getElementById('button').textContent = 'Добавляю комментарий'
-
         const newComment = {
             text: replaceTag(comment.value),
             name: replaceTag(input.value),
@@ -103,8 +101,7 @@ export const addComment = () => {
                 console.error('Возникла проблема с операцией fetch:', error)
             })
             .finally(
-                (document.getElementById('button').disabled = false),
-                (document.getElementById('button').textContent = 'Написать'),
+                (document.querySelector('.add-form').style.display = 'flex'),
                 (input.value = ''),
                 (comment.value = ''),
             )

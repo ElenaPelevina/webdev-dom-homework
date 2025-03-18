@@ -4,7 +4,8 @@ import { renderComments } from './modules/render.js'
 import { addComment } from './modules/eventListeners.js'
 import { updateComments } from './modules/commentsList.js'
 
-//renderComments()//
+document.querySelector('.comments').innerHTML =
+    'Пожалуйста, подождите. Загружаю комментарии...'
 
 export const getComment = () => {
     return fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
