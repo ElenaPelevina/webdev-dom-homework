@@ -93,12 +93,12 @@ export const addComment = () => {
                 if (!response.ok) {
                     throw new Error('Error occurred!')
                 }
-                return response.json()
+                return getComment()
             })
-            .then((data) => {
-                console.log(data)
-                getComment()
-            })
+            // .then((data) => {
+            //     console.log(data)
+            //     getComment()
+            // })
             .catch((error) => {
                 console.error('Возникла проблема с операцией fetch:', error)
             })

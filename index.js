@@ -7,7 +7,7 @@ import { updateComments } from './modules/commentsList.js'
 //renderComments()//
 
 export const getComment = () => {
-    fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
+    return fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
         method: 'GET',
     })
         .then((response) => {
