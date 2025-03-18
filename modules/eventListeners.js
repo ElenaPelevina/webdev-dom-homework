@@ -74,6 +74,9 @@ export const addComment = () => {
             return
         }
 
+        document.getElementById('button').disabled = true
+        document.getElementById('button').textContent = 'Добавляю комментарий'
+
         const newComment = {
             text: replaceTag(comment.value),
             name: replaceTag(input.value),
@@ -99,6 +102,11 @@ export const addComment = () => {
             .catch((error) => {
                 console.error('Возникла проблема с операцией fetch:', error)
             })
-            .finally((input.value = ''), (comment.value = ''))
+            .finally(
+                (document.getElementById('button').disabled = false),
+                (document.getElementById('button').textContent = 'Написать'),
+                (input.value = ''),
+                (comment.value = ''),
+            )
     })
 }
