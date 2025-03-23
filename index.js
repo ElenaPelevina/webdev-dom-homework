@@ -19,7 +19,7 @@ export const getComment = () => {
         })
         .then((data) => {
             console.log(data)
-
+            document.querySelector('.add-form').style.display = 'flex'
             updateComments(data.comments)
             renderComments()
         })

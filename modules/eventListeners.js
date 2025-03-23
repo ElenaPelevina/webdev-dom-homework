@@ -37,7 +37,7 @@ export const doQuote = () => {
         })
     }
 }
-
+console.log(document.querySelector('.add-form').style)
 export const addComment = () => {
     const button = document.getElementById('button')
     const input = document.getElementById('input')
@@ -47,6 +47,10 @@ export const addComment = () => {
         input.classList.remove('error')
         comment.classList.remove('error')
         document.querySelector('.add-form').style.display = 'none'
+        const newText = document.createElement('p')
+        document.getElementById('comments').append(newText)
+        newText.textContent = 'Загружаю комментарий...'
+        newText.style.textAlign = 'center'
 
         if (input.value === '' && comment.value === '') {
             input.classList.add('error')
@@ -83,9 +87,6 @@ export const addComment = () => {
         fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
             method: 'POST',
             body: JSON.stringify(newComment),
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // },
         })
             .then((response) => {
                 if (!response.ok) {
@@ -93,17 +94,9 @@ export const addComment = () => {
                 }
                 return getComment()
             })
-            // .then((data) => {
-            //     console.log(data)
-            //     getComment()
-            // })
             .catch((error) => {
                 console.error('Возникла проблема с операцией fetch:', error)
             })
-            .finally(
-                (document.querySelector('.add-form').style.display = 'flex'),
-                (input.value = ''),
-                (comment.value = ''),
-            )
+            .finally((input.value = ''), (comment.value = ''))
     })
 }
