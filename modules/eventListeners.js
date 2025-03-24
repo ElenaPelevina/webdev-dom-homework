@@ -37,7 +37,7 @@ export const doQuote = () => {
         })
     }
 }
-console.log(document.querySelector('.add-form').style)
+
 export const addComment = () => {
     const button = document.getElementById('button')
     const input = document.getElementById('input')
@@ -53,16 +53,24 @@ export const addComment = () => {
         newText.style.textAlign = 'center'
 
         if (input.value === '' && comment.value === '') {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             input.classList.add('error')
             comment.classList.add('error')
             return
         } else if (input.value === '') {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             input.classList.add('error')
             return
         } else if (comment.value === '') {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             comment.classList.add('error')
             return
         } else if (input.value.length < 3 && comment.value.length < 3) {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             alert(
                 'Длинна имени и комментария должна содержать хотя бы 3 символа',
             )
@@ -70,10 +78,14 @@ export const addComment = () => {
             comment.classList.add('error')
             return
         } else if (comment.value.length < 3) {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             alert('Длинна комментария должна содержать хотя бы 3 символа')
             comment.classList.add('error')
             return
         } else if (input.value.length < 3) {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             alert('Длинна имени должна содержать хотя бы 3 символа')
             input.classList.add('error')
             return
