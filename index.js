@@ -4,10 +4,11 @@ import { renderComments } from './modules/render.js'
 import { addComment } from './modules/eventListeners.js'
 import { updateComments } from './modules/commentsList.js'
 
-//renderComments()//
+document.querySelector('.comments').innerHTML =
+    'Пожалуйста, подождите. Загружаю комментарии...'
 
 export const getComment = () => {
-    fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
+    return fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
         method: 'GET',
     })
         .then((response) => {
@@ -18,7 +19,7 @@ export const getComment = () => {
         })
         .then((data) => {
             console.log(data)
-
+            document.querySelector('.add-form').style.display = 'flex'
             updateComments(data.comments)
             renderComments()
         })

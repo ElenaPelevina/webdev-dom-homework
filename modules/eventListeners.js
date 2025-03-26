@@ -46,18 +46,31 @@ export const addComment = () => {
     button.addEventListener('click', () => {
         input.classList.remove('error')
         comment.classList.remove('error')
+        document.querySelector('.add-form').style.display = 'none'
+        const newText = document.createElement('p')
+        document.getElementById('comments').append(newText)
+        newText.textContent = 'Загружаю комментарий...'
+        newText.style.textAlign = 'center'
 
         if (input.value === '' && comment.value === '') {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             input.classList.add('error')
             comment.classList.add('error')
             return
         } else if (input.value === '') {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             input.classList.add('error')
             return
         } else if (comment.value === '') {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             comment.classList.add('error')
             return
         } else if (input.value.length < 3 && comment.value.length < 3) {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             alert(
                 'Длинна имени и комментария должна содержать хотя бы 3 символа',
             )
@@ -65,10 +78,14 @@ export const addComment = () => {
             comment.classList.add('error')
             return
         } else if (comment.value.length < 3) {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             alert('Длинна комментария должна содержать хотя бы 3 символа')
             comment.classList.add('error')
             return
         } else if (input.value.length < 3) {
+            newText.hidden = true
+            document.querySelector('.add-form').style.display = 'flex'
             alert('Длинна имени должна содержать хотя бы 3 символа')
             input.classList.add('error')
             return
@@ -82,19 +99,12 @@ export const addComment = () => {
         fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
             method: 'POST',
             body: JSON.stringify(newComment),
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // },
         })
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error occurred!')
                 }
-                return response.json()
-            })
-            .then((data) => {
-                console.log(data)
-                getComment()
+                return getComment()
             })
             .catch((error) => {
                 console.error('Возникла проблема с операцией fetch:', error)
