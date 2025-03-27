@@ -24,7 +24,7 @@ export const getComment = () => {
             renderComments()
         })
         .catch((error) => {
-            console.error('Возникла проблема с операцией fetch:', error)
+            console.error(error.message)
         })
 }
 getComment()
