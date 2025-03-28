@@ -52,45 +52,6 @@ export const addComment = () => {
         newText.textContent = 'Загружаю комментарий...'
         newText.style.textAlign = 'center'
 
-        if (input.value === '' && comment.value === '') {
-            newText.hidden = true
-            document.querySelector('.add-form').style.display = 'flex'
-            input.classList.add('error')
-            comment.classList.add('error')
-            return
-        } else if (input.value === '') {
-            newText.hidden = true
-            document.querySelector('.add-form').style.display = 'flex'
-            input.classList.add('error')
-            return
-        } else if (comment.value === '') {
-            newText.hidden = true
-            document.querySelector('.add-form').style.display = 'flex'
-            comment.classList.add('error')
-            return
-        } else if (input.value.length < 3 && comment.value.length < 3) {
-            newText.hidden = true
-            document.querySelector('.add-form').style.display = 'flex'
-            alert(
-                'Длинна имени и комментария должна содержать хотя бы 3 символа',
-            )
-            input.classList.add('error')
-            comment.classList.add('error')
-            return
-        } else if (comment.value.length < 3) {
-            newText.hidden = true
-            document.querySelector('.add-form').style.display = 'flex'
-            alert('Длинна комментария должна содержать хотя бы 3 символа')
-            comment.classList.add('error')
-            return
-        } else if (input.value.length < 3) {
-            newText.hidden = true
-            document.querySelector('.add-form').style.display = 'flex'
-            alert('Длинна имени должна содержать хотя бы 3 символа')
-            input.classList.add('error')
-            return
-        }
-
         const newComment = {
             text: replaceTag(comment.value),
             name: replaceTag(input.value),
@@ -101,14 +62,84 @@ export const addComment = () => {
             body: JSON.stringify(newComment),
         })
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Error occurred!')
+                if (response.status === 201) {
+                    input.value = ''
+                    comment.value = ''
+                    return getComment()
+                } else {
+                    if (response.status === 500) {
+                        throw new Error('Ошибка сервера')
+                    } else if (response.status === 400) {
+                        throw new Error('Ошибка ввода данных')
+                    }
                 }
-                return getComment()
             })
             .catch((error) => {
-                console.error('Возникла проблема с операцией fetch:', error)
+                if (error.message === 'Ошибка сервера') {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    alert(error.message)
+                } else if (
+                    error.message === 'Ошибка ввода данных' &&
+                    input.value === '' &&
+                    comment.value === ''
+                ) {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    input.classList.add('error')
+                    comment.classList.add('error')
+                    alert('Не заполнены поля ввода имени и комментария')
+                } else if (
+                    error.message === 'Ошибка ввода данных' &&
+                    input.value === ''
+                ) {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    input.classList.add('error')
+                    alert('Не заполнено поля ввода имени')
+                } else if (
+                    error.message === 'Ошибка ввода данных' &&
+                    comment.value === ''
+                ) {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    comment.classList.add('error')
+                    alert('Не заполнено поле ввода комментария')
+                } else if (
+                    error.message === 'Ошибка ввода данных' &&
+                    input.value.length < 3 &&
+                    comment.value.length < 3
+                ) {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    input.classList.add('error')
+                    comment.classList.add('error')
+                    alert(
+                        'Длинна имени и комментария должна содержать хотя бы 3 символа',
+                    )
+                } else if (
+                    error.message === 'Ошибка ввода данных' &&
+                    comment.value.length < 3
+                ) {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    comment.classList.add('error')
+                    alert(
+                        'Длинна комментария должна содержать хотя бы 3 символа',
+                    )
+                } else if (
+                    error.message === 'Ошибка ввода данных' &&
+                    input.value.length < 3
+                ) {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    input.classList.add('error')
+                    alert('Длинна имени должна содержать хотя бы 3 символа')
+                } else {
+                    newText.hidden = true
+                    document.querySelector('.add-form').style.display = 'flex'
+                    alert('Кажется, у вас сломался интернет, попробуйте позже')
+                }
             })
-            .finally((input.value = ''), (comment.value = ''))
     })
 }
