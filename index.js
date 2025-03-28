@@ -14,6 +14,8 @@ export const getComment = () => {
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Сетевой ответ не в порядке')
+            } else if (response.status === 500) {
+                throw new Error('Ошибка сервера')
             }
             return response.json()
         })
@@ -24,6 +26,11 @@ export const getComment = () => {
             renderComments()
         })
         .catch((error) => {
+            if (error.massage === 'Ошибка сервера') {
+                alert(error.message)
+            } else {
+                alert('Сетевой ответ не в порядке')
+            }
             console.error(error.message)
         })
 }
