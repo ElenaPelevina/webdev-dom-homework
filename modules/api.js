@@ -3,8 +3,15 @@
 import { renderComments } from './render.js'
 import { updateComments } from './commentsList.js'
 
+const authorizationURL = 'https://wedev-api.sky.pro/api/user'
+let token = ''
+
+export const setToken = (newToken) => {
+    token = newToken
+}
+
 export const getComment = () => {
-    return fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
+    return fetch('https://wedev-api.sky.pro/api/v2/elena-pelevina/comments', {
         method: 'GET',
     })
         .then((response) => {

@@ -57,7 +57,7 @@ export const addComment = () => {
             name: replaceTag(input.value),
         }
 
-        fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
+        fetch('https://wedev-api.sky.pro/api/v2/elena-pelevina/comments', {
             method: 'POST',
             body: JSON.stringify(newComment),
         })
