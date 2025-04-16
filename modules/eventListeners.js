@@ -1,7 +1,7 @@
 import { commentsArr } from './commentsList.js'
 import { renderComments } from './render.js'
 import { replaceTag } from './replaceFunctions.js'
-import { getComment } from '../index.js'
+import { getComment } from './api.js'
 
 export const likeComments = () => {
     const likeButtons = document.querySelectorAll('.like-button')
