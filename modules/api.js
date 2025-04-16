@@ -3,11 +3,17 @@
 import { renderComments } from './render.js'
 import { updateComments } from './commentsList.js'
 
-const authorizationURL = 'https://wedev-api.sky.pro/api/user'
-let token = ''
+export const authorizationURL = 'https://wedev-api.sky.pro/api/user'
+export let token = ''
 
 export const setToken = (newToken) => {
     token = newToken
+}
+
+export let name = ''
+
+export const setName = (newName) => {
+    name = newName
 }
 
 export const getComment = () => {
@@ -24,7 +30,7 @@ export const getComment = () => {
         })
         .then((data) => {
             console.log(data)
-            document.querySelector('.add-form').style.display = 'flex'
+            // document.querySelector('.add-form').style.display = 'flex'
             updateComments(data.comments)
             renderComments()
         })
@@ -36,4 +42,11 @@ export const getComment = () => {
             }
             console.error(error.message)
         })
+}
+
+export const login = (login, password) => {
+    return fetch(authorizationURL + '/login', {
+        method: 'POST',
+        body: JSON.stringify({ login: login, password: password }),
+    })
 }

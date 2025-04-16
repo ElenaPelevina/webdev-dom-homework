@@ -1,6 +1,15 @@
 import { commentsArr } from './commentsList.js'
 import { likeComments, doQuote } from './eventListeners.js'
 import { replaceQuote } from './replaceFunctions.js'
+import {
+    token,
+    setToken,
+    getComment,
+    authorizationURL,
+    setName,
+    name,
+} from './api.js'
+import { addComment } from './eventListeners.js'
 
 export const renderComments = () => {
     const options = {
@@ -37,6 +46,89 @@ export const renderComments = () => {
         .join('')
     commentsList.innerHTML = commentsHtml
 
-    likeComments()
-    doQuote()
+    const addForm = document.querySelector('.add-form')
+
+    const addCommentForm = `
+      <input
+          id='input'
+          type="text"
+          class="add-form-name"
+          placeholder="Введите ваше имя"
+          readonly
+          value = '${name}'
+        />
+        <textarea
+          id="comment"
+          type="textarea"
+          class="add-form-text"
+          placeholder="Введите ваш коментарий"
+          rows="4"
+        ></textarea>
+        <div class="add-form-row">
+          <button id="button" class="add-form-button">Написать</button>
+        </div>
+    `
+
+    const loginLinkHtml = `<div style = "display: flex; flex-direction: column; align-items: center; justify-content: center;"><p>Авторизуйтесь, чтобы оставить комментарий </p><button id = "enter" class = "add-form-button">Войти</button></div>`
+
+    const renderLogin = () => {
+        const containerLogin = document.querySelector('.add-form')
+        const loginHtml = `
+    
+          <input
+          style = "align-self: center"
+            id='login'
+            type="text"
+            class="add-form-name"
+            placeholder="Введите Ваш логин"
+            reguired
+          /><br>
+          <input
+          style = "align-self: center"
+            id='password'
+            type="text"
+            class="add-form-name"
+            placeholder="Введите Ваш пароль"
+            reguired
+          />
+          <button id = "enterButton" class = "add-form-button">Войти</button>
+          <button class = "add-form-button">Зарегистрироваться</button>
+          
+          `
+        const login = (login, password) => {
+            return fetch(authorizationURL + '/login', {
+                method: 'POST',
+                body: JSON.stringify({ login: login, password: password }),
+            })
+        }
+        containerLogin.innerHTML = loginHtml
+        const loginEl = document.getElementById('login')
+        const password = document.getElementById('password')
+        const buttonEnter = document.getElementById('enterButton')
+
+        buttonEnter.addEventListener('click', () => {
+            login(loginEl.value, password.value)
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    setToken(data.user.token)
+                    setName(data.user.name)
+                    getComment()
+                })
+        })
+    }
+
+    if (token) {
+        addForm.innerHTML = addCommentForm
+        likeComments()
+        doQuote()
+        addComment()
+    } else {
+        addForm.innerHTML = loginLinkHtml
+        const buttonEnter = document.getElementById('enter')
+        buttonEnter.addEventListener('click', () => {
+            renderLogin()
+        })
+    }
 }
