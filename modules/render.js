@@ -46,8 +46,6 @@ export const renderComments = () => {
         .join('')
     commentsList.innerHTML = commentsHtml
 
-    const addForm = document.querySelector('.add-form')
-
     const addCommentForm = `
       <input
           id='input'
@@ -119,13 +117,15 @@ export const renderComments = () => {
         })
     }
 
+    const mainContainer = document.querySelector('.container')
+    mainContainer.innerHTML = `<ul id='comments' class="comments">${commentsHtml} </ul>
+     <div class="add-form">${token ? addCommentForm : loginLinkHtml}</div>`
+
     if (token) {
-        addForm.innerHTML = addCommentForm
         likeComments()
         doQuote()
         addComment()
     } else {
-        addForm.innerHTML = loginLinkHtml
         const buttonEnter = document.getElementById('enter')
         buttonEnter.addEventListener('click', () => {
             renderLogin()
