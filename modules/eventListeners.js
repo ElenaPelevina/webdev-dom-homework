@@ -1,7 +1,7 @@
 import { commentsArr } from './commentsList.js'
 import { renderComments } from './render.js'
 import { replaceTag } from './replaceFunctions.js'
-import { getComment } from '../index.js'
+import { getComment, token } from './api.js'
 
 export const likeComments = () => {
     const likeButtons = document.querySelectorAll('.like-button')
@@ -57,8 +57,11 @@ export const addComment = () => {
             name: replaceTag(input.value),
         }
 
-        fetch('https://wedev-api.sky.pro/api/v1/elena-pelevina/comments', {
+        fetch('https://wedev-api.sky.pro/api/v2/elena-pelevina/comments', {
             method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
             body: JSON.stringify(newComment),
         })
             .then((response) => {
