@@ -128,6 +128,7 @@ export const renderComments = () => {
     } else {
         const buttonEnter = document.getElementById('enter')
         buttonEnter.addEventListener('click', () => {
+            document.querySelector('.comments').style.display = 'none'
             renderLogin()
         })
     }

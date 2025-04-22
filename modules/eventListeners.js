@@ -33,7 +33,6 @@ export const doQuote = () => {
             comment.value = `quote Пользователь ${commentsArr[info].author.name} сказал:
     "${commentsArr[info].text}" unqoute`
             console.log(`${info} done`)
-            renderComments()
         })
     }
 }
