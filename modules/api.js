@@ -49,4 +49,19 @@ export const login = (login, password) => {
         method: 'POST',
         body: JSON.stringify({ login: login, password: password }),
     })
+        .then((response) => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                if (response.status === 400) {
+                    alert('Ошибка в логине или пароле!')
+                    throw new Error('Неверный логин или пароль')
+                } else throw new Error('Ошибка...')
+            }
+        })
+        .catch((error) => {
+            if (error.massage === 'Неверный логин или пароль') {
+                alert('Ошибка в логине или пароле')
+            }
+        })
 }

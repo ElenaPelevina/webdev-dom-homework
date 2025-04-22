@@ -1,15 +1,9 @@
 import { commentsArr } from './commentsList.js'
 import { likeComments, doQuote } from './eventListeners.js'
 import { replaceQuote } from './replaceFunctions.js'
-import {
-    token,
-    setToken,
-    getComment,
-    authorizationURL,
-    setName,
-    name,
-} from './api.js'
+import { token, setToken, getComment, setName, name } from './api.js'
 import { addComment } from './eventListeners.js'
+import { login } from './api.js'
 
 export const renderComments = () => {
     const options = {
@@ -93,12 +87,6 @@ export const renderComments = () => {
           <button class = "add-form-button">Зарегистрироваться</button>
           
           `
-        const login = (login, password) => {
-            return fetch(authorizationURL + '/login', {
-                method: 'POST',
-                body: JSON.stringify({ login: login, password: password }),
-            })
-        }
         containerLogin.innerHTML = loginHtml
         const loginEl = document.getElementById('login')
         const password = document.getElementById('password')
@@ -106,13 +94,15 @@ export const renderComments = () => {
 
         buttonEnter.addEventListener('click', () => {
             login(loginEl.value, password.value)
-                .then((response) => {
-                    return response.json()
-                })
                 .then((data) => {
                     setToken(data.user.token)
                     setName(data.user.name)
                     getComment()
+                })
+                .catch((error) => {
+                    if (error.massage === 'Неверный логин или пароль') {
+                        alert('Ошибка в логине или пароле')
+                    }
                 })
         })
     }
