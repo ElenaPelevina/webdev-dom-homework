@@ -54,13 +54,12 @@ export const login = (login, password) => {
                 return response.json()
             } else {
                 if (response.status === 400) {
-                    alert('Ошибка в логине или пароле!')
                     throw new Error('Неверный логин или пароль')
                 } else throw new Error('Ошибка...')
             }
         })
         .catch((error) => {
-            if (error.massage === 'Неверный логин или пароль') {
+            if (error.message === 'Неверный логин или пароль') {
                 alert('Ошибка в логине или пароле')
             }
         })

@@ -93,17 +93,11 @@ export const renderComments = () => {
         const buttonEnter = document.getElementById('enterButton')
 
         buttonEnter.addEventListener('click', () => {
-            login(loginEl.value, password.value)
-                .then((data) => {
-                    setToken(data.user.token)
-                    setName(data.user.name)
-                    getComment()
-                })
-                .catch((error) => {
-                    if (error.massage === 'Неверный логин или пароль') {
-                        alert('Ошибка в логине или пароле')
-                    }
-                })
+            login(loginEl.value, password.value).then((data) => {
+                setToken(data.user.token)
+                setName(data.user.name)
+                getComment()
+            })
         })
     }
 
